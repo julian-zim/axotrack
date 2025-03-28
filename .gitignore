@@ -1,0 +1,6 @@
+.vscode/
+data/
+playground/
+install/build/
+install/dist/
+install/*.spec
