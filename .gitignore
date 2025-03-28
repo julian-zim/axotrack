@@ -4,3 +4,4 @@ playground/
 install/build/
 install/dist/
 install/*.spec
+**/models/
