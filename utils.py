@@ -57,8 +57,8 @@ def choose_directory(title=None):
 
 # other
 def setup_camera(camera):
-	if camera.Width.GetValue() > camera.Height.GetValue():
-		camera.Width.SetValue(camera.Height.GetValue())
+	if camera.Width.GetValue() > camera.HeightMax.Value:
+		camera.Width.SetValue(camera.HeightMax.Value // 4 * 4)
 
 	camera.PixelFormat.Value = "Mono8"
 
