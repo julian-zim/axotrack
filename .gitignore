@@ -1,7 +1,8 @@
-.vscode/
-data/
-playground/
+**/__pycache__/
+**/.vscode/
 install/build/
 install/dist/
 install/*.spec
 **/models/
+data/
+playground/
