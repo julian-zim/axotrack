@@ -32,7 +32,7 @@ class ParameterControl(QWidget):
 	def __init__(self, camera):
 		super().__init__()
 
-		self.camera = camera
+		self.max_width_orig = camera.WidthMax.Value
 		self.max_dim = min(camera.WidthMax.Value, camera.HeightMax.Value)  # force square max image
 		init_width = camera.Width.GetValue()
 		init_height = camera.Height.GetValue()
@@ -80,13 +80,13 @@ class ParameterControl(QWidget):
 
 		self.slider_offsetx = QSlider(Qt.Horizontal)
 		self.slider_offsetx.setMinimum(0)
-		self.slider_offsetx.setMaximum(camera.WidthMax.Value - init_width)
+		self.slider_offsetx.setMaximum(self.max_width_orig - init_width)
 		self.slider_offsetx.setSingleStep(4)
 		self.slider_offsetx.setValue(init_offsetx)
 		self.slider_offsetx.valueChanged.connect(lambda: self.set_offsetx(self.slider_offsetx.value()))
 
 		self.edit_offsetx = QLineEdit(str(init_offsetx))
-		self.edit_offsetx.setValidator(MultiplesValidator(4, 0, camera.WidthMax.Value - init_width))
+		self.edit_offsetx.setValidator(MultiplesValidator(4, 0, self.max_width_orig - init_width))
 		self.edit_offsetx.setFixedWidth(50)
 		self.edit_offsetx.editingFinished.connect(lambda: self.set_offsetx(int(self.edit_offsetx.text())))
 
@@ -147,7 +147,7 @@ class ParameterControl(QWidget):
 		self.slider_width.setValue(width_new)
 		self.edit_width.setText(str(width_new))
 
-		offsetx_max_new = self.camera.WidthMax.Value - width_new
+		offsetx_max_new = self.max_width_orig - width_new
 		self.slider_offsetx.setMaximum(offsetx_max_new)
 		self.edit_offsetx.setValidator(MultiplesValidator(4, 0, offsetx_max_new))
 
