@@ -4,5 +4,11 @@ install/build/
 install/dist/
 install/*.spec
 **/models/
+manual/*.fdb_latexmk
+manual/*.gz
+manual/*.fls
+manual/*.aux
+manual/*.out
+manual/*.log
 data/
 playground/
