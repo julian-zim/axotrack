@@ -32,6 +32,7 @@ class ParameterControl(QWidget):
 	def __init__(self, camera):
 		super().__init__()
 
+		self.camera = camera
 		self.max_width_orig = camera.WidthMax.Value
 		self.max_dim = min(camera.WidthMax.Value, camera.HeightMax.Value)  # force square max image
 		init_width = camera.Width.GetValue()
