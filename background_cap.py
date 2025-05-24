@@ -165,11 +165,11 @@ def main():
 		camera = InstantCamera(TlFactory.GetInstance().CreateFirstDevice())
 	except:
 		show_error('Could not access the camera. Make sure all other software that accesses it is closed.')
-		return
+		return -1
 	camera.Open()
 	if not camera.IsOpen():
 		show_error('Cannot find camera.')
-		return
+		return -1
 	setup_camera(camera)
 
 	# window setup
@@ -304,17 +304,18 @@ def main():
 			backlight_info = '\n\nNote that no old backlight file was found.'
 		show_info(f'Capture canceled.{background_info}{backlight_info}')
 
-		return
-	
-	out_dirpath = join(getcwd(), 'data')
-	makedirs(out_dirpath, exist_ok=True)
-	imwrite(join(out_dirpath, 'background.jpg'), image_background)
-	if len(monitors) > 1:
-		with open(join(out_dirpath, 'backlight.txt'), 'w') as file:
-			file.write(str(image_backlight[0, 0]))
-		show_info(f'Background data saved to\n\n"{getcwd()}\\data\\"\n\nas "background.jpg" and "backlight.txt".')
-	else :
-		show_info(f'Background image saved to\n\n"{getcwd()}\\data\\background.jpg".')
+	else:
+		out_dirpath = join(getcwd(), 'data')
+		makedirs(out_dirpath, exist_ok=True)
+		imwrite(join(out_dirpath, 'background.jpg'), image_background)
+		if len(monitors) > 1:
+			with open(join(out_dirpath, 'backlight.txt'), 'w') as file:
+				file.write(str(image_backlight[0, 0]))
+			show_info(f'Background data saved to\n\n"{getcwd()}\\data\\"\n\nas "background.jpg" and "backlight.txt".')
+		else :
+			show_info(f'Background image saved to\n\n"{getcwd()}\\data\\background.jpg".')
+
+	return 0
 
 
 if __name__ == '__main__':

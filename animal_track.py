@@ -393,11 +393,11 @@ def main():
 	image_bg = imread(filepath_background)
 	if image_bg is None:
 		show_error('Cannot read background image.')
-		return
+		return -1
 	image_bg = cvtColor(image_bg, COLOR_BGR2GRAY)
 	if image_bg.shape[0] != image_bg.shape[1]:
 		show_error('Background image must be square.')
-		return
+		return -1
 	image_square_size = min(image_bg.shape[0], max_quality_size)
 	image_bg = resize(image_bg, (image_square_size, image_square_size))
 
@@ -416,11 +416,11 @@ def main():
 		camera = InstantCamera(TlFactory.GetInstance().CreateFirstDevice())
 	except:
 		show_error('Could not access the camera. Make sure all other software that accesses it is closed.')
-		return
+		return -1
 	camera.Open()
 	if not camera.IsOpen():
 		show_error('Cannot find camera.')
-		return
+		return -1
 	setup_camera(camera)
 
 
@@ -687,6 +687,8 @@ def main():
 	app.quit()
 
 	if record: show_info(f'Video saved to\n\n"{outfile_path}".')
+
+	return 0
 
 
 if __name__ == '__main__':

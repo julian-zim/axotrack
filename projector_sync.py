@@ -214,11 +214,11 @@ def main():
 		camera = InstantCamera(TlFactory.GetInstance().CreateFirstDevice())
 	except:
 		show_error('Cannot access the camera. Make sure all other software that accesses it is closed.')
-		return
+		return -1
 	camera.Open()
 	if not camera.IsOpen():
 		show_error('Cannot find camera.')
-		return
+		return -1
 	setup_camera(camera)
 
 	# window setup
@@ -270,6 +270,8 @@ def main():
 	destroyAllWindows()
 	controller.close()
 	app.quit()
+
+	return 0
 
 
 if __name__ == '__main__':
