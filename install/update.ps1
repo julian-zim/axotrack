@@ -1,5 +1,6 @@
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process -Force
-conda activate axotrack
+
+git pull https://github.com/julian-zim/axotrack.git
 
 if (Test-Path ".\build\AxoTrack") {
     Remove-Item ".\build\AxoTrack" -Recurse -Force
