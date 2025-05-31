@@ -56,50 +56,73 @@ class ParameterControl(QWidget):
 	
 	def __init__(self, max_size):
 		super().__init__()
-		window_width = 300
-		label_width = 85
-		edit_width = 30
-		spacer_width = 36
+		window_width = 320
+		label_width = 95
+		edit_width = 40
 
 		# threshold body
-		self.label_threshold_body = QLabel('Threshold Body:')
+		self.label_threshold_body = QLabel('Body Threshold:')
 		self.label_threshold_body.setFixedWidth(label_width)
 	
 		self.slider_threshold_body = QSlider(Qt.Horizontal)
 		self.slider_threshold_body.setMinimum(0)
 		self.slider_threshold_body.setMaximum(255)
 		self.slider_threshold_body.setValue(20)
-		self.slider_threshold_body.valueChanged.connect(lambda: self.signal_threshold_body.emit(self.slider_threshold_body.value()))
+		self.slider_threshold_body.valueChanged.connect(lambda: self.emit_threshold_body(True))
+
+		self.edit_threshold_body = QLineEdit()
+		self.edit_threshold_body.setMaximumWidth(edit_width)
+		self.edit_threshold_body.setValidator(QIntValidator(0, 255))
+		self.edit_threshold_body.setText('20')
+		self.edit_threshold_body.editingFinished.connect(lambda: self.emit_threshold_body(False))
 
 		# anti noise body
-		self.label_anti_noise_body = QLabel('Anti Noise Body:')
+		self.label_anti_noise_body = QLabel('Body Anti Noise:')
 		self.label_anti_noise_body.setFixedWidth(label_width)
 
 		self.slider_anti_noise_body = QSlider(Qt.Horizontal)
 		self.slider_anti_noise_body.setMinimum(1)
 		self.slider_anti_noise_body.setMaximum(10)
 		self.slider_anti_noise_body.setValue(5)
-		self.slider_anti_noise_body.valueChanged.connect(lambda: self.signal_anti_noise_body.emit(self.slider_anti_noise_body.value()))
+		self.slider_anti_noise_body.valueChanged.connect(lambda: self.emit_anti_noise_body(True))
+
+		self.edit_anti_noise_body = QLineEdit()
+		self.edit_anti_noise_body.setMaximumWidth(edit_width)
+		self.edit_anti_noise_body.setValidator(QIntValidator(1, 10))
+		self.edit_anti_noise_body.setText('5')
+		self.edit_anti_noise_body.editingFinished.connect(lambda: self.emit_anti_noise_body(False))
 
 		# threshold eyes
-		self.label_threshold_eyes = QLabel('Threshold Eyes:')
+		self.label_threshold_eyes = QLabel('Eyes Threshold:')
 		self.label_threshold_eyes.setFixedWidth(label_width)
 
 		self.slider_threshold_eyes = QSlider(Qt.Horizontal)
 		self.slider_threshold_eyes.setMinimum(0)
 		self.slider_threshold_eyes.setMaximum(255)
 		self.slider_threshold_eyes.setValue(200)
-		self.slider_threshold_eyes.valueChanged.connect(lambda: self.signal_threshold_eyes.emit(self.slider_threshold_eyes.value()))
+		self.slider_threshold_eyes.valueChanged.connect(lambda: self.emit_threshold_eyes(True))
+
+		self.edit_threshold_eyes = QLineEdit()
+		self.edit_threshold_eyes.setMaximumWidth(edit_width)
+		self.edit_threshold_eyes.setValidator(QIntValidator(0, 255))
+		self.edit_threshold_eyes.setText('200')
+		self.edit_threshold_eyes.editingFinished.connect(lambda: self.emit_threshold_eyes(False))
 
 		# anti noise eyes
-		self.label_anti_noise_eyes = QLabel('Anti Noise Eyes:')
+		self.label_anti_noise_eyes = QLabel('Eyes Anti Noise:')
 		self.label_anti_noise_eyes.setFixedWidth(label_width)
 
 		self.slider_anti_noise_eyes = QSlider(Qt.Horizontal)
 		self.slider_anti_noise_eyes.setMinimum(1)
 		self.slider_anti_noise_eyes.setMaximum(10)
 		self.slider_anti_noise_eyes.setValue(1)
-		self.slider_anti_noise_eyes.valueChanged.connect(lambda: self.signal_anti_noise_eyes.emit(self.slider_anti_noise_eyes.value()))
+		self.slider_anti_noise_eyes.valueChanged.connect(lambda: self.emit_anti_noise_eyes(True))
+
+		self.edit_anti_noise_eyes = QLineEdit()
+		self.edit_anti_noise_eyes.setMaximumWidth(edit_width)
+		self.edit_anti_noise_eyes.setValidator(QIntValidator(1, 10))
+		self.edit_anti_noise_eyes.setText('1')
+		self.edit_anti_noise_eyes.editingFinished.connect(lambda: self.emit_anti_noise_eyes(False))
 
 		# dot distance medial
 		self.label_distance_medial = QLabel('Medial Distance:')
@@ -157,7 +180,13 @@ class ParameterControl(QWidget):
 		self.slider_hue.setMinimum(0)
 		self.slider_hue.setMaximum(255)
 		self.slider_hue.setValue(255)
-		self.slider_hue.valueChanged.connect(self.emit_color)
+		self.slider_hue.valueChanged.connect(lambda: self.emit_color(True))
+
+		self.edit_hue = QLineEdit()
+		self.edit_hue.setMaximumWidth(edit_width)
+		self.edit_hue.setValidator(QIntValidator(0, 255))
+		self.edit_hue.setText('255')
+		self.edit_hue.editingFinished.connect(lambda: self.emit_color(False))
 
 		# dot brightness
 		self.label_brightness = QLabel('Brightness:')
@@ -167,7 +196,13 @@ class ParameterControl(QWidget):
 		self.slider_brightness.setMinimum(0)
 		self.slider_brightness.setMaximum(511)
 		self.slider_brightness.setValue(255)
-		self.slider_brightness.valueChanged.connect(self.emit_color)
+		self.slider_brightness.valueChanged.connect(lambda: self.emit_color(True))
+
+		self.edit_brightness = QLineEdit()
+		self.edit_brightness.setMaximumWidth(edit_width)
+		self.edit_brightness.setValidator(QIntValidator(0, 511))
+		self.edit_brightness.setText('255')
+		self.edit_brightness.editingFinished.connect(lambda: self.emit_color(False))
 
 		# dot jitter speed
 		self.label_jitter_speed = QLabel('Jitter Speed:')
@@ -177,7 +212,13 @@ class ParameterControl(QWidget):
 		self.slider_jitter_speed.setMinimum(0)
 		self.slider_jitter_speed.setMaximum(100)
 		self.slider_jitter_speed.setValue(90)
-		self.slider_jitter_speed.valueChanged.connect(lambda: self.signal_jitter_speed.emit(self.slider_jitter_speed.value()))
+		self.slider_jitter_speed.valueChanged.connect(lambda: self.emit_jitter_speed(True))
+
+		self.edit_jitter_speed = QLineEdit()
+		self.edit_jitter_speed.setMaximumWidth(edit_width)
+		self.edit_jitter_speed.setValidator(QIntValidator(0, 100))
+		self.edit_jitter_speed.setText('90')
+		self.edit_jitter_speed.editingFinished.connect(lambda: self.emit_jitter_speed(False))
 
 		# dot jitter strength medial
 		self.label_jitter_magnitude_medial = QLabel('Medial Jitter:')
@@ -232,19 +273,23 @@ class ParameterControl(QWidget):
 		layout_threshold_body = QHBoxLayout()
 		layout_threshold_body.addWidget(self.label_threshold_body)
 		layout_threshold_body.addWidget(self.slider_threshold_body)
-		layout_threshold_body.addItem(QSpacerItem(spacer_width, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
+		layout_threshold_body.addWidget(self.edit_threshold_body)
+		layout_threshold_body.addItem(QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
 		layout_anti_noise_body = QHBoxLayout()
 		layout_anti_noise_body.addWidget(self.label_anti_noise_body)
 		layout_anti_noise_body.addWidget(self.slider_anti_noise_body)
-		layout_anti_noise_body.addItem(QSpacerItem(spacer_width, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
+		layout_anti_noise_body.addWidget(self.edit_anti_noise_body)
+		layout_anti_noise_body.addItem(QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
 		layout_threshold_eyes = QHBoxLayout()
 		layout_threshold_eyes.addWidget(self.label_threshold_eyes)
 		layout_threshold_eyes.addWidget(self.slider_threshold_eyes)
-		layout_threshold_eyes.addItem(QSpacerItem(spacer_width, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
+		layout_threshold_eyes.addWidget(self.edit_threshold_eyes)
+		layout_threshold_eyes.addItem(QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
 		layout_anti_noise_eyes = QHBoxLayout()
 		layout_anti_noise_eyes.addWidget(self.label_anti_noise_eyes)
 		layout_anti_noise_eyes.addWidget(self.slider_anti_noise_eyes)
-		layout_anti_noise_eyes.addItem(QSpacerItem(spacer_width, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
+		layout_anti_noise_eyes.addWidget(self.edit_anti_noise_eyes)
+		layout_anti_noise_eyes.addItem(QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
 		layout_distance_medial = QHBoxLayout()
 		layout_distance_medial.addWidget(self.label_distance_medial)
 		layout_distance_medial.addWidget(self.slider_distance_medial)
@@ -263,15 +308,18 @@ class ParameterControl(QWidget):
 		layout_hue = QHBoxLayout()
 		layout_hue.addWidget(self.label_hue)
 		layout_hue.addWidget(self.slider_hue)
-		layout_hue.addItem(QSpacerItem(spacer_width, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
+		layout_hue.addWidget(self.edit_hue)
+		layout_hue.addItem(QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
 		layout_brightness = QHBoxLayout()
 		layout_brightness.addWidget(self.label_brightness)
 		layout_brightness.addWidget(self.slider_brightness)
-		layout_brightness.addItem(QSpacerItem(spacer_width, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
+		layout_brightness.addWidget(self.edit_brightness)
+		layout_brightness.addItem(QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
 		layout_jitter_speed = QHBoxLayout()
 		layout_jitter_speed.addWidget(self.label_jitter_speed)
 		layout_jitter_speed.addWidget(self.slider_jitter_speed)
-		layout_jitter_speed.addItem(QSpacerItem(spacer_width, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
+		layout_jitter_speed.addWidget(self.edit_jitter_speed)
+		layout_jitter_speed.addItem(QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding))
 		layout_jitter_magnitude_medial = QHBoxLayout()
 		layout_jitter_magnitude_medial.addWidget(self.label_jitter_magnitude_medial)
 		layout_jitter_magnitude_medial.addWidget(self.slider_jitter_magnitude_medial)
@@ -314,6 +362,35 @@ class ParameterControl(QWidget):
 		_, _, screen_width, screen_height = QDesktopWidget().screenGeometry().getRect()
 		_, _, width, height = self.geometry().getRect()
 		self.move(screen_width * 3 // 4 - width // 2, screen_height // 2 - height // 2)
+	
+
+	def emit_threshold_body(self, from_slider):
+		if from_slider:
+			self.edit_threshold_body.setText(str(self.slider_threshold_body.value()))
+		else:
+			self.slider_threshold_body.setValue(int(self.edit_threshold_body.text()))
+		self.signal_threshold_body.emit(self.slider_threshold_body.value())
+
+	def emit_anti_noise_body(self, from_slider):
+		if from_slider:
+			self.edit_anti_noise_body.setText(str(self.slider_anti_noise_body.value()))
+		else:
+			self.slider_anti_noise_body.setValue(int(self.edit_anti_noise_body.text()))
+		self.signal_anti_noise_body.emit(self.slider_anti_noise_body.value())
+
+	def emit_threshold_eyes(self, from_slider):
+		if from_slider:
+			self.edit_threshold_eyes.setText(str(self.slider_threshold_eyes.value()))
+		else:
+			self.slider_threshold_eyes.setValue(int(self.edit_threshold_eyes.text()))
+		self.signal_threshold_eyes.emit(self.slider_threshold_eyes.value())
+
+	def emit_anti_noise_eyes(self, from_slider):
+		if from_slider:
+			self.edit_anti_noise_eyes.setText(str(self.slider_anti_noise_eyes.value()))
+		else:
+			self.slider_anti_noise_eyes.setValue(int(self.edit_anti_noise_eyes.text()))
+		self.signal_anti_noise_eyes.emit(self.slider_anti_noise_eyes.value())
 
 	def emit_distance_medial(self, from_slider):
 		if from_slider:
@@ -336,10 +413,23 @@ class ParameterControl(QWidget):
 			self.slider_radius.setValue(int(self.edit_radius.text()))
 		self.signal_radius.emit(self.slider_radius.value())
 
-	def emit_color(self):
+	def emit_color(self, from_slider):
+		if from_slider:
+			self.edit_hue.setText(str(self.slider_hue.value()))
+			self.edit_brightness.setText(str(self.slider_brightness.value()))
+		else:
+			self.slider_hue.setValue(int(self.edit_hue.text()))
+			self.slider_brightness.setValue(int(self.edit_brightness.text()))
 		color = QColor()
 		color.setHsv(self.slider_hue.value(), 255 - max(0, self.slider_brightness.value() - 256), min(self.slider_brightness.value(), 255))
 		self.signal_color.emit(color.getRgb()[:3])
+
+	def emit_jitter_speed(self, from_slider):
+		if from_slider:
+			self.edit_jitter_speed.setText(str(self.slider_jitter_speed.value()))
+		else:
+			self.slider_jitter_speed.setValue(int(self.edit_jitter_speed.text()))
+		self.signal_jitter_speed.emit(self.slider_jitter_speed.value())
 
 	def emit_jitter_magnitude_medial(self, from_slider):
 		if from_slider:
@@ -361,16 +451,16 @@ class ParameterControl(QWidget):
 		self.signal_record.emit()
 
 	def emit_all(self):
-		self.signal_threshold_body.emit(self.slider_threshold_body.value())
-		self.signal_threshold_eyes.emit(self.slider_threshold_eyes.value())
-		self.signal_anti_noise_body.emit(self.slider_anti_noise_body.value())
-		self.signal_anti_noise_eyes.emit(self.slider_anti_noise_eyes.value())
+		self.emit_threshold_body(True)
+		self.emit_threshold_eyes(True)
+		self.emit_anti_noise_body(True)
+		self.emit_anti_noise_eyes(True)
 		self.signal_active.emit(self.checkbox_active.isChecked())
 		self.emit_distance_medial(True)
 		self.emit_distance_lateral(True)
-		self.signal_radius.emit(self.slider_radius.value())
-		self.emit_color()
-		self.signal_jitter_speed.emit(self.slider_jitter_speed.value())
+		self.emit_radius(True)
+		self.emit_color(True)
+		self.emit_jitter_speed(True)
 		self.emit_jitter_magnitude_medial(True)
 		self.emit_jitter_magnitude_lateral(True)
 
