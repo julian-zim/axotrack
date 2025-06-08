@@ -1,1 +1,1 @@
-imageio pypylon opencv-python numpy screeninfo pyqt5
+numpy screeninfo imageio[ffmpeg] imageio[pyav] pyqt5 opencv-python pypylon
