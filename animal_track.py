@@ -12,7 +12,7 @@ from cv2 import namedWindow, moveWindow, resizeWindow, setWindowProperty, getWin
 from cv2 import waitKey, imshow, imread, cvtColor, COLOR_GRAY2BGR, COLOR_BGR2GRAY
 from cv2 import resize, flip, line, circle, putText, FONT_HERSHEY_SIMPLEX, LINE_AA
 from cv2 import normalize, absdiff, threshold, morphologyEx, moments, findContours, contourArea, NORM_MINMAX, THRESH_BINARY, MORPH_OPEN, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtCore import Qt, QTimer, QElapsedTimer, pyqtSignal
 from PyQt5.QtGui import QColor, QIntValidator
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QHBoxLayout, QDesktopWidget, QWidget, QLabel, QLineEdit, QSlider, QPushButton, QCheckBox, QSpacerItem, QSizePolicy
 from pypylon.pylon import InstantCamera, TlFactory, GrabStrategy_LatestImageOnly, TimeoutHandling_ThrowException
@@ -265,6 +265,15 @@ class ParameterControl(QWidget):
 		self.button_record = QPushButton('Start Recording')
 		self.button_record.clicked.connect(self.emit_record)
 
+		# timer
+		self.timer_ms = 0
+		self.edit_timer = QLineEdit("00:00:000")
+		self.edit_timer.setReadOnly(True)
+		self.edit_timer.setAlignment(Qt.AlignCenter)
+		self.timer_elapsed = QElapsedTimer()
+		self.timer = QTimer()
+		self.timer.timeout.connect(self.update_timer)
+
 		# button quit
 		self.button_quit = QPushButton('Save video and quit')
 		self.button_quit.clicked.connect(self.close)
@@ -351,6 +360,7 @@ class ParameterControl(QWidget):
 		layout_main.addLayout(layout_active)
 		layout_main.addItem(QSpacerItem(0, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
 		layout_main.addWidget(self.button_record)
+		#layout_main.addWidget(self.edit_timer)
 		layout_main.addWidget(self.button_quit)
 		self.setLayout(layout_main)
 		# endregion
@@ -448,6 +458,8 @@ class ParameterControl(QWidget):
 	def emit_record(self):
 		self.button_record.setEnabled(False)
 		self.button_record.setText('Recording...')
+		#self.timer_elapsed.start()
+		#self.timer.start(10)
 		self.signal_record.emit()
 
 	def emit_all(self):
@@ -463,6 +475,13 @@ class ParameterControl(QWidget):
 		self.emit_jitter_speed(True)
 		self.emit_jitter_magnitude_medial(True)
 		self.emit_jitter_magnitude_lateral(True)
+	
+	def update_timer(self):
+		time = self.timer_elapsed.elapsed()
+		minutes, remainder = divmod(time, 60000)
+		seconds, milliseconds = divmod(remainder, 1000)
+		time = f'{minutes:02d}:{seconds:02d}:{milliseconds:03d}'
+		self.edit_timer.setText(time)
 
 	def closeEvent(self, event):
 		QApplication.exit(0)
