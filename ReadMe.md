@@ -6,3 +6,7 @@
 4. Activate the conda environment: `conda activate axotrack`
 5. Install the program: Run the build script via `./build.ps1`
 6. The resulting folder "./install/dist/AxoTrack" will contain all necessary files.
+
+# MANUAL
+
+[![Preview](preview.png)](manual/manual.pdf)
