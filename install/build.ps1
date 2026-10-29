@@ -10,7 +10,7 @@ if (Test-Path ".\dist\AxoTrack") {
 if (Test-Path ".\AxoTrack.spec") {
     Remove-Item ".\AxoTrack.spec" -Force
 }
-pyinstaller --name="AxoTrack" --icon="icon.ico" "../main.py" --onedir --noconsole
+pyinstaller --name="AxoTrack" --icon="icon.ico" "../src/main.py" --onedir --noconsole
 Copy-Item -Path "..\manual\manual.pdf" -Destination ".\dist\AxoTrack" -ErrorAction SilentlyContinue
 
 $desktopPath = [Environment]::GetFolderPath("Desktop")
